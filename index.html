@@ -79,6 +79,104 @@
             color: var(--primary-color);
         }
 
+        /* 移动端汉堡菜单按钮 */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+            padding: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--primary-color);
+        }
+
+        /* 移动端侧边栏 */
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            padding: 4rem 1.5rem 2rem;
+            overflow-y: auto;
+        }
+
+        .mobile-sidebar.active {
+            right: 0;
+        }
+
+        .mobile-sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .mobile-sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-sidebar-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+
+        .mobile-sidebar-close:hover {
+            color: var(--text-primary);
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .mobile-nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 1.1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: block;
+        }
+
+        .mobile-nav-links a:hover {
+            background: var(--bg-light);
+            color: var(--primary-color);
+        }
+
+        .mobile-language-switcher {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
         /* 语言切换器 - 下拉菜单样式 */
         .language-switcher {
             position: relative;
@@ -480,10 +578,6 @@
                 font-size: 1rem;
             }
 
-            .nav-links {
-                display: none;
-            }
-
             .section-title {
                 font-size: 2rem;
             }
@@ -523,8 +617,12 @@
                 justify-content: center;
             }
             
-            /* 移动端语言切换器 */
-            .language-switcher {
+            /* 移动端导航优化 */
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
                 display: block;
             }
         }
@@ -546,12 +644,6 @@
             .download-card {
                 padding: 1.5rem;
             }
-            
-            .lang-dropdown-btn {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.85rem;
-                min-width: 90px;
-            }
         }
     </style>
 </head>
@@ -564,6 +656,7 @@
                 <li><a href="#features" data-zh="功能特性" data-en="Features">功能特性</a></li>
                 <li><a href="#screenshots" data-zh="界面预览" data-en="Screenshots">界面预览</a></li>
                 <li><a href="#download" data-zh="下载安装" data-en="Download">下载安装</a></li>
+                <li><a href="https://www.yuque.com/anumbrella/ghzw5q/mhs2x44pzt6ycco1" target="_blank" data-zh="用户手册" data-en="User Manual">用户手册</a></li>
                 <li class="language-switcher">
                     <button class="lang-dropdown-btn" id="langDropdownBtn">
                         <span id="currentLangText">中文</span>
@@ -574,8 +667,32 @@
                     </div>
                 </li>
             </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="打开菜单">☰</button>
         </div>
     </nav>
+
+    <!-- 移动端侧边栏 -->
+    <div class="mobile-sidebar-overlay" id="mobileSidebarOverlay"></div>
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <button class="mobile-sidebar-close" id="mobileSidebarClose" aria-label="关闭菜单">✕</button>
+        <ul class="mobile-nav-links">
+            <li><a href="#features" data-zh="功能特性" data-en="Features">功能特性</a></li>
+            <li><a href="#screenshots" data-zh="界面预览" data-en="Screenshots">界面预览</a></li>
+            <li><a href="#download" data-zh="下载安装" data-en="Download">下载安装</a></li>
+            <li><a href="https://www.yuque.com/anumbrella/ghzw5q/mhs2x44pzt6ycco1" target="_blank" data-zh="用户手册" data-en="User Manual">用户手册</a></li>
+        </ul>
+        <div class="mobile-language-switcher">
+            <div class="language-switcher">
+                <button class="lang-dropdown-btn" id="mobileLangDropdownBtn" style="width: 100%;">
+                    <span id="mobileCurrentLangText">中文</span>
+                </button>
+                <div class="lang-dropdown-menu" id="mobileLangDropdownMenu">
+                    <div class="lang-option active" data-lang="zh">🇨🇳 中文</div>
+                    <div class="lang-option" data-lang="en">🇺🇸 English</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Hero 区域 -->
     <section class="hero">
@@ -713,13 +830,18 @@
            data-en="Choose the version suitable for your platform and start improving work efficiency">
             选择适合您平台的版本，开始提升工作效率
         </p>
+        <div style="margin-bottom: 2rem; font-size: 1.1rem; opacity: 0.9;">
+            <span data-zh="当前版本：" data-en="Current Version: ">当前版本：</span>
+            <strong>0.0.1-beta</strong>
+        </div>
         <div class="download-grid">
             <!-- Windows -->
             <div class="download-card">
                 <div class="platform-icon">🪟</div>
                 <h3>Windows</h3>
                 <p data-zh="Windows 10/11 64位" data-en="Windows 10/11 64-bit">Windows 10/11 64位</p>
-                <a href="https://github.com/yourusername/super_clipboard/releases/latest/download/SuperClipboard-Windows.zip" class="download-btn" data-zh="下载 Windows 版" data-en="Download for Windows">
+                <p style="font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7;">v0.0.1-beta</p>
+                <a href="https://github.com/Shuyun123/SuperClipboard/releases/download/0.0.1-beta/SuperClipboard_Setup-x64-v0.0.1beta.exe" class="download-btn" data-zh="下载 Windows 版" data-en="Download for Windows">
                     下载 Windows 版
                 </a>
                 <div class="status-badge" data-zh="✅ 已发布" data-en="✅ Released">✅ 已发布</div>
@@ -730,6 +852,7 @@
                 <div class="platform-icon">🍎</div>
                 <h3>macOS</h3>
                 <p data-zh="macOS 10.15+" data-en="macOS 10.15+">macOS 10.15+</p>
+                <p style="font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7;">v0.0.1-beta</p>
                 <span class="download-btn disabled" data-zh="适配中" data-en="Adapting">适配中</span>
                 <div class="status-badge" data-zh="🚧 正在适配" data-en="🚧 Adapting">🚧 正在适配</div>
             </div>
@@ -739,6 +862,7 @@
                 <div class="platform-icon">🐧</div>
                 <h3>Linux</h3>
                 <p data-zh="Ubuntu/Fedora 等" data-en="Ubuntu/Fedora etc.">Ubuntu/Fedora 等</p>
+                <p style="font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7;">v0.0.1-beta</p>
                 <span class="download-btn disabled" data-zh="适配中" data-en="Adapting">适配中</span>
                 <div class="status-badge" data-zh="🚧 正在适配" data-en="🚧 Adapting">🚧 正在适配</div>
             </div>
@@ -761,17 +885,37 @@
         const langDropdownMenu = document.getElementById('langDropdownMenu');
         const currentLangText = document.getElementById('currentLangText');
         
-        // 切换下拉菜单显示/隐藏
+        // 移动端语言切换器
+        const mobileLangDropdownBtn = document.getElementById('mobileLangDropdownBtn');
+        const mobileLangDropdownMenu = document.getElementById('mobileLangDropdownMenu');
+        const mobileCurrentLangText = document.getElementById('mobileCurrentLangText');
+        
+        // 切换桌面端下拉菜单显示/隐藏
         langDropdownBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             langDropdownMenu.classList.toggle('show');
             langDropdownBtn.classList.toggle('active');
         });
         
+        // 切换移动端下拉菜单显示/隐藏
+        if (mobileLangDropdownBtn) {
+            mobileLangDropdownBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                mobileLangDropdownMenu.classList.toggle('show');
+                mobileLangDropdownBtn.classList.toggle('active');
+            });
+        }
+        
         // 点击页面其他地方关闭下拉菜单
         document.addEventListener('click', function() {
             langDropdownMenu.classList.remove('show');
             langDropdownBtn.classList.remove('active');
+            if (mobileLangDropdownMenu) {
+                mobileLangDropdownMenu.classList.remove('show');
+            }
+            if (mobileLangDropdownBtn) {
+                mobileLangDropdownBtn.classList.remove('active');
+            }
         });
         
         // 阻止下拉菜单内部点击事件冒泡
@@ -779,13 +923,22 @@
             e.stopPropagation();
         });
         
+        if (mobileLangDropdownMenu) {
+            mobileLangDropdownMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+        
         function switchLanguage(lang) {
             currentLang = lang;
             
-            // 更新当前显示的语言文本
+            // 更新当前显示的语言文本（桌面端和移动端）
             currentLangText.textContent = lang === 'zh' ? '中文' : 'English';
+            if (mobileCurrentLangText) {
+                mobileCurrentLangText.textContent = lang === 'zh' ? '中文' : 'English';
+            }
             
-            // 更新下拉选项的激活状态
+            // 更新下拉选项的激活状态（桌面端和移动端）
             document.querySelectorAll('.lang-option').forEach(option => {
                 option.classList.remove('active');
                 if (option.dataset.lang === lang) {
@@ -812,15 +965,58 @@
             // 关闭下拉菜单
             langDropdownMenu.classList.remove('show');
             langDropdownBtn.classList.remove('active');
+            if (mobileLangDropdownMenu) {
+                mobileLangDropdownMenu.classList.remove('show');
+            }
+            if (mobileLangDropdownBtn) {
+                mobileLangDropdownBtn.classList.remove('active');
+            }
         }
         
-        // 绑定语言选项点击事件
+        // 绑定语言选项点击事件（桌面端和移动端）
         document.querySelectorAll('.lang-option').forEach(option => {
             option.addEventListener('click', function() {
                 const lang = this.dataset.lang;
                 switchLanguage(lang);
             });
         });
+        
+        // 移动端侧边栏功能
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const mobileSidebarOverlay = document.getElementById('mobileSidebarOverlay');
+        const mobileSidebarClose = document.getElementById('mobileSidebarClose');
+        
+        function openMobileSidebar() {
+            mobileSidebar.classList.add('active');
+            mobileSidebarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeMobileSidebar() {
+            mobileSidebar.classList.remove('active');
+            mobileSidebarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', openMobileSidebar);
+        }
+        
+        if (mobileSidebarClose) {
+            mobileSidebarClose.addEventListener('click', closeMobileSidebar);
+        }
+        
+        if (mobileSidebarOverlay) {
+            mobileSidebarOverlay.addEventListener('click', closeMobileSidebar);
+        }
+        
+        // 点击移动端侧边栏中的链接后关闭侧边栏
+        if (mobileSidebar) {
+            mobileSidebar.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', closeMobileSidebar);
+            });
+        }
         
         // 图片灯箱功能
         function openLightbox(src) {
@@ -837,10 +1033,11 @@
             document.body.style.overflow = ''; // 恢复背景滚动
         }
         
-        // ESC 键关闭灯箱
+        // ESC 键关闭灯箱和侧边栏
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeLightbox();
+                closeMobileSidebar();
             }
         });
         
