@@ -584,6 +584,209 @@
             color: #92400e;
         }
 
+        /* 其他下载方式区域 */
+        .alternative-download {
+            padding: 3rem 2rem;
+            background: white;
+        }
+
+        .alt-download-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .alt-download-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 2.5rem;
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .alt-download-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .alt-download-icon {
+            font-size: 2.5rem;
+        }
+
+        .alt-download-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .alt-download-content {
+            margin-bottom: 2rem;
+        }
+
+        .alt-download-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            opacity: 0.95;
+        }
+
+        .alt-download-steps {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .alt-download-steps h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alt-download-steps ol {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .alt-download-steps li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .alt-download-steps li::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0.75rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: white;
+            color: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .highlight-text {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* 公众号关注区域 */
+        .wechat-section {
+            padding: 4rem 2rem;
+            background: var(--bg-light);
+            text-align: center;
+        }
+
+        .wechat-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .wechat-title {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .wechat-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+        }
+
+        .wechat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            display: inline-block;
+        }
+
+        .wechat-qrcode {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 1.5rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .wechat-qrcode img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .wechat-qrcode-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .wechat-info h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .wechat-info p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .wechat-benefits {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .wechat-benefits h4 {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            text-align: left;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .benefit-icon {
+            font-size: 1.2rem;
+        }
+
         /* 图片灯箱效果 */
         .lightbox {
             display: none;
@@ -943,38 +1146,62 @@
         </div>
     </section>
 
-    <!-- 注意事项 -->
-    <section class="notice-section">
-        <div class="notice-container">
-            <div class="notice-card">
-                <div class="notice-icon">⚠️</div>
-                <div class="notice-content">
-                    <h3 data-zh="使用注意事项" data-en="Important Notice">使用注意事项</h3>
-                    <p data-zh="为确保软件正常运行，请注意以下事项：" 
-                       data-en="To ensure the software works properly, please note the following:">
-                        为确保软件正常运行，请注意以下事项：
+    <!-- 其他下载方式 -->
+    <section class="alternative-download">
+        <div class="alt-download-container">
+            <div class="alt-download-card">
+                <div class="alt-download-header">
+                    <div class="alt-download-icon">⚠️</div>
+                    <h3 class="alt-download-title" data-zh="其他下载方式" data-en="Alternative Download Methods">其他下载方式</h3>
+                </div>
+                <div class="alt-download-content">
+                    <p data-zh="国内用户从 GitHub 下载可能较慢，建议使用网盘下载，速度更快！" 
+                       data-en="Downloading from GitHub may be slow for users in China. We recommend using cloud storage for faster download!">
+                        国内用户从 GitHub 下载可能较慢，建议使用网盘下载，速度更快！
                     </p>
-                    <ul>
-                        <li data-zh="如果自动粘贴功能无效，请检查安全软件（如 360、火绒等）是否拦截了'键盘模拟'权限。请将本程序添加到安全软件的信任区（白名单）中，然后重新启动软件以使设置生效。" 
-                            data-en="If the auto-paste function doesn't work, please check if security software (such as 360, Huorong, etc.) has blocked the 'keyboard simulation' permission. Please add this program to the security software's trust zone (whitelist), then restart the software for the settings to take effect.">
-                            如果自动粘贴功能无效，请检查安全软件（如 360、火绒等）是否拦截了"键盘模拟"权限。请将本程序添加到安全软件的信任区（白名单）中，然后重新启动软件以使设置生效。
+                    <p data-zh="关注公众号获取网盘下载链接 👇" 
+                       data-en="Follow our WeChat Official Account to get the cloud storage download link 👇">
+                        关注公众号获取网盘下载链接 👇
+                    </p>
+                </div>
+                <div class="alt-download-steps">
+                    <h4 data-zh="📱 获取步骤：" data-en="📱 Steps to Download:">📱 获取步骤：</h4>
+                    <ol>
+                        <li data-step="1" data-zh="扫描下方二维码或搜索关注公众号【壁虎说技术】" 
+                            data-en="Scan the QR code below or search and follow the WeChat Official Account [壁虎说技术]">
+                            扫描下方二维码或搜索关注公众号【壁虎说技术】
                         </li>
-                        <li data-zh="首次运行时，Windows 可能会提示"未知发布者"，请点击"仍要运行"以继续使用。" 
-                            data-en="When running for the first time, Windows may prompt 'Unknown Publisher', please click 'Run Anyway' to continue.">
-                            首次运行时，Windows 可能会提示"未知发布者"，请点击"仍要运行"以继续使用。
+                        <li data-step="2" data-zh="在公众号对话框回复关键词【超级粘贴板】" 
+                            data-en="Reply with the keyword [超级粘贴板] in the account's chat">
+                            在公众号对话框回复关键词【超级粘贴板】
                         </li>
-                        <li data-zh="建议将软件安装目录添加到杀毒软件的白名单中，以避免误报。" 
-                            data-en="It is recommended to add the software installation directory to the antivirus whitelist to avoid false positives.">
-                            建议将软件安装目录添加到杀毒软件的白名单中，以避免误报。
+                        <li data-step="3" data-zh="自动获取网盘下载链接，高速下载！🚀" 
+                            data-en="Automatically receive the cloud storage download link for fast download! 🚀">
+                            自动获取网盘下载链接，高速下载！🚀
                         </li>
-                    </ul>
-                    <div class="notice-tips">
-                        <strong data-zh="💡 温馨提示：" data-en="💡 Tips: ">💡 温馨提示：</strong>
-                        <span data-zh="本软件为本地化工具，所有数据均存储在您的设备上，不会上传到云端，请放心使用。" 
-                              data-en="This is a local tool, all data is stored on your device and will not be uploaded to the cloud, please use with confidence.">
-                            本软件为本地化工具，所有数据均存储在您的设备上，不会上传到云端，请放心使用。
-                        </span>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 公众号关注 -->
+    <section class="wechat-section">
+        <div class="wechat-container">
+            <h2 class="wechat-title" data-zh="关注公众号" data-en="Follow Us on WeChat">关注公众号</h2>
+            <p class="wechat-subtitle" data-zh="获取更多效率工具推荐和技术分享" data-en="Get more productivity tools recommendations and tech sharing">获取更多效率工具推荐和技术分享</p>
+            
+            <div class="wechat-card">
+                <div class="wechat-qrcode">
+                    <!-- 替换为实际的公众号二维码图片 -->
+                    <img src="assets/images/wechat-qrcode.jpg" alt="壁虎说技术公众号二维码" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="wechat-qrcode-placeholder" style="display: none;">
+                        📱 公众号二维码<br>（待添加）
                     </div>
+                </div>
+                <div class="wechat-info">
+                    <h3>壁虎说技术</h3>
+                    <p data-zh="专注效率工具、技术分享、编程技巧" data-en="Focus on productivity tools, tech sharing, and programming skills">专注效率工具、技术分享、编程技巧</p>
                 </div>
             </div>
         </div>
