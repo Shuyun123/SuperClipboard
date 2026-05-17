@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>超级粘贴板 - Super Clipboard | 智能剪贴板管理工具</title>
+    <meta name="description" content="超级粘贴板 (Super Clipboard) 是一款功能强大的跨平台剪贴板管理工具，自动记录和管理您的所有复制内容，大幅提升工作效率。">
+    <link rel="icon" type="image/png" href="./assets/images/favicon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4F46E5;
+            --primary-hover: #4338CA;
+            --secondary-color: #10B981;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --bg-light: #F9FAFB;
+            --bg-white: #FFFFFF;
+            --border-color: #E5E7EB;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-white);
+        }
+
+        /* 导航栏 */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* 语言切换器 - 下拉菜单样式 */
+        .language-switcher {
+            position: relative;
+        }
+
+        .lang-dropdown-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            min-width: 100px;
+            justify-content: space-between;
+        }
+
+        .lang-dropdown-btn:hover {
+            background: var(--bg-light);
+            border-color: var(--primary-color);
+        }
+
+        .lang-dropdown-btn::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .lang-dropdown-btn.active::after {
+            transform: rotate(180deg);
+        }
+
+        .lang-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            min-width: 120px;
+            display: none;
+            z-index: 1001;
+            overflow: hidden;
+        }
+
+        .lang-dropdown-menu.show {
+            display: block;
+        }
+
+        .lang-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lang-option:hover {
+            background: var(--bg-light);
+        }
+
+        .lang-option.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .lang-option.active:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Hero 区域 */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        /* 功能特性 */
+        .features {
+            padding: 4rem 2rem;
+            background: var(--bg-light);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* 截图展示 */
+        .screenshots {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .screenshot-gallery {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .screenshot-item {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.3s;
+            background: white;
+        }
+
+        .screenshot-item:hover {
+            transform: scale(1.02);
+        }
+
+        .screenshot-placeholder {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* 下载区域 */
+        .download {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .download h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .download p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .download-grid {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .download-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .download-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .download-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .download-card.disabled:hover {
+            transform: none;
+        }
+
+        .platform-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .download-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .download-card p {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            color: var(--primary-color);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .download-btn.disabled {
+            background: #9CA3AF;
+            color: white;
+            cursor: not-allowed;
+        }
+
+        .download-btn.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        /* 图片灯箱效果 */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            user-select: none;
+        }
+
+        .lightbox-close:hover {
+            transform: scale(1.1);
+        }
+
+        .screenshot-item {
+            cursor: pointer;
+        }
+
+        /* 页脚 */
+        footer {
+            background: var(--text-primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .screenshot-gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            /* 增强的移动端适配 */
+            .nav-container {
+                padding: 0 1rem;
+            }
+            
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+            
+            .features, .screenshots, .download {
+                padding: 3rem 1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 80%;
+                justify-content: center;
+            }
+            
+            /* 移动端语言切换器 */
+            .language-switcher {
+                display: block;
+            }
+        }
+        
+        /* 小屏幕设备优化 */
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .feature-card {
+                padding: 1.5rem;
+            }
+            
+            .download-card {
+                padding: 1.5rem;
+            }
+            
+            .lang-dropdown-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.85rem;
+                min-width: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">📋 <span data-zh="超级粘贴板" data-en="Super Clipboard">超级粘贴板</span></a>
+            <ul class="nav-links">
+                <li><a href="#features" data-zh="功能特性" data-en="Features">功能特性</a></li>
+                <li><a href="#screenshots" data-zh="界面预览" data-en="Screenshots">界面预览</a></li>
+                <li><a href="#download" data-zh="下载安装" data-en="Download">下载安装</a></li>
+                <li class="language-switcher">
+                    <button class="lang-dropdown-btn" id="langDropdownBtn">
+                        <span id="currentLangText">中文</span>
+                    </button>
+                    <div class="lang-dropdown-menu" id="langDropdownMenu">
+                        <div class="lang-option active" data-lang="zh">🇨🇳 中文</div>
+                        <div class="lang-option" data-lang="en">🇺🇸 English</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero 区域 -->
+    <section class="hero">
+        <h1 data-zh="超级粘贴板" data-en="Super Clipboard">超级粘贴板</h1>
+        <p data-zh="智能剪贴板管理工具，自动记录和管理您的所有复制内容，大幅提升工作效率" 
+           data-en="Smart clipboard management tool that automatically records and manages all your copied content, significantly improving work efficiency">
+            智能剪贴板管理工具，自动记录和管理您的所有复制内容，大幅提升工作效率
+        </p>
+        <div class="cta-buttons">
+            <a href="#download" class="btn btn-primary" data-zh="立即下载" data-en="Download Now">立即下载</a>
+            <a href="#features" class="btn btn-secondary" data-zh="了解更多" data-en="Learn More">了解更多</a>
+        </div>
+    </section>
+
+    <!-- 功能特性 -->
+    <section id="features" class="features">
+        <h2 class="section-title" data-zh="核心功能" data-en="Core Features">核心功能</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3 data-zh="智能历史记录" data-en="Smart History">智能历史记录</h3>
+                <p data-zh="自动捕获所有复制内容，支持文本、图片、文件等多种类型。智能去重，避免重复记录相同内容。" 
+                   data-en="Automatically captures all copied content, supporting text, images, files and more. Intelligent deduplication to avoid recording duplicate content.">
+                    自动捕获所有复制内容，支持文本、图片、文件等多种类型。智能去重，避免重复记录相同内容。
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3 data-zh="收藏管理" data-en="Favorites Management">收藏管理</h3>
+                <p data-zh="一键收藏重要内容，方便快速访问。收藏夹独立筛选，重要信息永不丢失。" 
+                   data-en="One-click favorite for important content, easy and quick access. Independent favorites filtering ensures important information is never lost.">
+                    一键收藏重要内容，方便快速访问。收藏夹独立筛选，重要信息永不丢失。
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3 data-zh="强大搜索" data-en="Powerful Search">强大搜索</h3>
+                <p data-zh="实时关键词搜索，毫秒级响应。按内容类型精确筛选，组合搜索条件快速定位目标内容。" 
+                   data-en="Real-time keyword search with millisecond response. Precise filtering by content type, combined search conditions to quickly locate target content.">
+                    实时关键词搜索，毫秒级响应。按内容类型精确筛选，组合搜索条件快速定位目标内容。
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⌨️</div>
+                <h3 data-zh="高效快捷键" data-en="Efficient Shortcuts">高效快捷键</h3>
+                <p data-zh="全局热键一键唤起剪贴板窗口，数字键快速粘贴常用内容，完全可自定义的快捷键配置。" 
+                   data-en="Global hotkey to instantly bring up clipboard window, number keys for quick paste of frequently used content, fully customizable shortcut configuration.">
+                    全局热键一键唤起剪贴板窗口，数字键快速粘贴常用内容，完全可自定义的快捷键配置。
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 data-zh="多选与批量操作" data-en="Multi-select & Batch Operations">多选与批量操作</h3>
+                <p data-zh="Ctrl+Shift 组合键启用多选模式，批量删除无用记录，合并多个文本内容为一条。" 
+                   data-en="Ctrl+Shift combination enables multi-select mode, batch delete useless records, merge multiple text contents into one.">
+                    Ctrl+Shift 组合键启用多选模式，批量删除无用记录，合并多个文本内容为一条。
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🖼️</div>
+                <h3 data-zh="卡片式界面" data-en="Card-style Interface">卡片式界面</h3>
+                <p data-zh="现代化的卡片设计，直观美观。平滑滚动加载，键盘导航支持，无需鼠标即可操作。" 
+                   data-en="Modern card design, intuitive and beautiful. Smooth scrolling load, keyboard navigation support, operate without mouse.">
+                    现代化的卡片设计，直观美观。平滑滚动加载，键盘导航支持，无需鼠标即可操作。
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📌</div>
+                <h3 data-zh="窗口管理" data-en="Window Management">窗口管理</h3>
+                <p data-zh="窗口置顶功能，系统托盘图标，优雅的显示/隐藏动画效果，开机自动启动。" 
+                   data-en="Window always-on-top feature, system tray icon, elegant show/hide animation effects, auto-start on boot.">
+                    窗口置顶功能，系统托盘图标，优雅的显示/隐藏动画效果，开机自动启动。
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h3 data-zh="个性化设置" data-en="Personalized Settings">个性化设置</h3>
+                <p data-zh="主题切换（亮色/暗色/跟随系统），多语言支持，灵活的历史清理策略配置。" 
+                   data-en="Theme switching (light/dark/follow system), multi-language support, flexible history cleanup strategy configuration.">
+                    主题切换（亮色/暗色/跟随系统），多语言支持，灵活的历史清理策略配置。
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3 data-zh="隐私安全" data-en="Privacy & Security">隐私安全</h3>
+                <p data-zh="所有数据本地存储，不上传云端。加密存储敏感配置，软删除机制防止误删恢复。" 
+                   data-en="All data stored locally, not uploaded to cloud. Encrypted storage for sensitive configurations, soft delete mechanism to prevent accidental deletion recovery.">
+                    所有数据本地存储，不上传云端。加密存储敏感配置，软删除机制防止误删恢复。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 截图展示 -->
+    <section id="screenshots" class="screenshots">
+        <h2 class="section-title" data-zh="界面预览" data-en="Interface Preview">界面预览</h2>
+        <div class="screenshot-gallery">
+            <div class="screenshot-item" onclick="openLightbox('assets/images/screenshot-main.png')">
+                <img src="assets/images/screenshot-main.png" alt="主界面截图" data-zh-alt="主界面截图" data-en-alt="Main Interface Screenshot" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="screenshot-placeholder" style="display: none;" data-zh="📸 主界面截图（待添加）" data-en="📸 Main Interface Screenshot (To be added)">
+                    📸 主界面截图（待添加）
+                </div>
+            </div>
+            <div class="screenshot-item" onclick="openLightbox('assets/images/screenshot-search.png')">
+                <img src="assets/images/screenshot-search.png" alt="搜索功能截图" data-zh-alt="搜索功能截图" data-en-alt="Search Function Screenshot" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="screenshot-placeholder" style="display: none;" data-zh="📸 搜索功能截图（待添加）" data-en="📸 Search Function Screenshot (To be added)">
+                    📸 搜索功能截图（待添加）
+                </div>
+            </div>
+            <div class="screenshot-item" onclick="openLightbox('assets/images/screenshot-favorites.png')">
+                <img src="assets/images/screenshot-favorites.png" alt="收藏管理截图" data-zh-alt="收藏管理截图" data-en-alt="Favorites Management Screenshot" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="screenshot-placeholder" style="display: none;" data-zh="📸 收藏管理截图（待添加）" data-en="📸 Favorites Management Screenshot (To be added)">
+                    📸 收藏管理截图（待添加）
+                </div>
+            </div>
+            <div class="screenshot-item" onclick="openLightbox('assets/images/screenshot-settings.png')">
+                <img src="assets/images/screenshot-settings.png" alt="设置界面截图" data-zh-alt="设置界面截图" data-en-alt="Settings Interface Screenshot" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="screenshot-placeholder" style="display: none;" data-zh="📸 设置界面截图（待添加）" data-en="📸 Settings Interface Screenshot (To be added)">
+                    📸 设置界面截图（待添加）
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 图片灯箱 -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img src="" alt="放大预览" id="lightbox-img">
+    </div>
+
+    <!-- 下载区域 -->
+    <section id="download" class="download">
+        <h2 data-zh="立即下载" data-en="Download Now">立即下载</h2>
+        <p data-zh="选择适合您平台的版本，开始提升工作效率" 
+           data-en="Choose the version suitable for your platform and start improving work efficiency">
+            选择适合您平台的版本，开始提升工作效率
+        </p>
+        <div class="download-grid">
+            <!-- Windows -->
+            <div class="download-card">
+                <div class="platform-icon">🪟</div>
+                <h3>Windows</h3>
+                <p data-zh="Windows 10/11 64位" data-en="Windows 10/11 64-bit">Windows 10/11 64位</p>
+                <a href="https://github.com/yourusername/super_clipboard/releases/latest/download/SuperClipboard-Windows.zip" class="download-btn" data-zh="下载 Windows 版" data-en="Download for Windows">
+                    下载 Windows 版
+                </a>
+                <div class="status-badge" data-zh="✅ 已发布" data-en="✅ Released">✅ 已发布</div>
+            </div>
+
+            <!-- macOS -->
+            <div class="download-card disabled">
+                <div class="platform-icon">🍎</div>
+                <h3>macOS</h3>
+                <p data-zh="macOS 10.15+" data-en="macOS 10.15+">macOS 10.15+</p>
+                <span class="download-btn disabled" data-zh="适配中" data-en="Adapting">适配中</span>
+                <div class="status-badge" data-zh="🚧 正在适配" data-en="🚧 Adapting">🚧 正在适配</div>
+            </div>
+
+            <!-- Linux -->
+            <div class="download-card disabled">
+                <div class="platform-icon">🐧</div>
+                <h3>Linux</h3>
+                <p data-zh="Ubuntu/Fedora 等" data-en="Ubuntu/Fedora etc.">Ubuntu/Fedora 等</p>
+                <span class="download-btn disabled" data-zh="适配中" data-en="Adapting">适配中</span>
+                <div class="status-badge" data-zh="🚧 正在适配" data-en="🚧 Adapting">🚧 正在适配</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>&copy; 2026 <span data-zh="超级粘贴板" data-en="Super Clipboard">超级粘贴板</span>. <span data-zh="保留所有权利。" data-en="All rights reserved.">保留所有权利。</span></p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+            <span data-zh="问题反馈与支持" data-en="Feedback & Support">问题反馈与支持</span>
+        </p>
+    </footer>
+
+    <script>
+        // 语言切换功能 - 下拉菜单版本
+        let currentLang = 'zh'; // 默认中文
+        
+        const langDropdownBtn = document.getElementById('langDropdownBtn');
+        const langDropdownMenu = document.getElementById('langDropdownMenu');
+        const currentLangText = document.getElementById('currentLangText');
+        
+        // 切换下拉菜单显示/隐藏
+        langDropdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            langDropdownMenu.classList.toggle('show');
+            langDropdownBtn.classList.toggle('active');
+        });
+        
+        // 点击页面其他地方关闭下拉菜单
+        document.addEventListener('click', function() {
+            langDropdownMenu.classList.remove('show');
+            langDropdownBtn.classList.remove('active');
+        });
+        
+        // 阻止下拉菜单内部点击事件冒泡
+        langDropdownMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+        
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            // 更新当前显示的语言文本
+            currentLangText.textContent = lang === 'zh' ? '中文' : 'English';
+            
+            // 更新下拉选项的激活状态
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.lang === lang) {
+                    option.classList.add('active');
+                }
+            });
+            
+            // 更新页面文本
+            document.querySelectorAll('[data-zh][data-en]').forEach(element => {
+                element.textContent = element.dataset[lang];
+            });
+            
+            // 更新图片 alt 属性
+            document.querySelectorAll('img[data-zh-alt][data-en-alt]').forEach(img => {
+                img.alt = img.dataset[lang + 'Alt'];
+            });
+            
+            // 更新 HTML lang 属性
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+            
+            // 保存语言偏好到 localStorage
+            localStorage.setItem('preferred-language', lang);
+            
+            // 关闭下拉菜单
+            langDropdownMenu.classList.remove('show');
+            langDropdownBtn.classList.remove('active');
+        }
+        
+        // 绑定语言选项点击事件
+        document.querySelectorAll('.lang-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+                switchLanguage(lang);
+            });
+        });
+        
+        // 图片灯箱功能
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden'; // 禁止背景滚动
+        }
+        
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = ''; // 恢复背景滚动
+        }
+        
+        // ESC 键关闭灯箱
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+        
+        // 页面加载时检查用户偏好
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferred-language');
+            if (savedLang && (savedLang === 'zh' || savedLang === 'en')) {
+                switchLanguage(savedLang);
+            }
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 禁用下载按钮提示
+        document.querySelectorAll('.download-btn.disabled').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert(currentLang === 'zh' ? '该平台版本正在适配中，敬请期待！' : 'This platform version is being adapted, stay tuned!');
+            });
+        });
+    </script>
+</body>
+</html>
