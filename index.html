@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>超级剪贴板 - Super Clipboard | 智能剪贴板管理工具</title>
     <meta name="description" content="超级剪贴板 (Super Clipboard) 是一款功能强大的跨平台剪贴板管理工具，自动记录和管理您的所有复制内容，大幅提升工作效率。">
-    <link rel="icon" type="image/png" href="./assets/images/favicon.png">
+    <link rel="icon" href="./assets/images/app_icon.ico">
     <style>
         * {
             margin: 0;
@@ -14,20 +14,23 @@
         }
 
         :root {
-            --primary-color: #4F46E5;
-            --primary-hover: #4338CA;
+            --primary-color: #6366F1;
+            --primary-hover: #4F46E5;
+            --primary-light: #EEF2FF;
+            --accent-color: #06B6D4;
             --secondary-color: #10B981;
-            --text-primary: #1F2937;
-            --text-secondary: #6B7280;
-            --bg-light: #F9FAFB;
+            --text-primary: #1E293B;
+            --text-secondary: #64748B;
+            --bg-light: #F8FAFC;
             --bg-white: #FFFFFF;
-            --border-color: #E5E7EB;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --border-color: #E2E8F0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --radius: 16px;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
             color: var(--text-primary);
             background: var(--bg-white);
@@ -55,10 +58,12 @@
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.4rem;
+            font-weight: 700;
             color: var(--primary-color);
             text-decoration: none;
+            display: flex;
+            align-items: center;
         }
 
         .nav-links {
@@ -255,25 +260,42 @@
 
         /* Hero 区域 */
         .hero {
-            padding: 8rem 2rem 4rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 8rem 2rem 5rem;
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #06B6D4 100%);
             color: white;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
         }
 
         .hero h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
             font-weight: 800;
+            position: relative;
+            letter-spacing: -0.02em;
         }
 
         .hero p {
             font-size: 1.25rem;
             margin-bottom: 2rem;
-            opacity: 0.9;
+            opacity: 0.92;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            position: relative;
         }
 
         .cta-buttons {
@@ -297,22 +319,24 @@
         .btn-primary {
             background: white;
             color: var(--primary-color);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
 
         .btn-secondary {
-            background: transparent;
+            background: rgba(255,255,255,0.15);
             color: white;
-            border: 2px solid white;
+            border: 2px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(4px);
         }
 
         .btn-secondary:hover {
-            background: white;
-            color: var(--primary-color);
+            background: rgba(255,255,255,0.25);
+            border-color: white;
         }
 
         /* 功能特性 */
@@ -324,8 +348,20 @@
         .section-title {
             text-align: center;
             font-size: 2.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
             color: var(--text-primary);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .features-grid {
@@ -339,14 +375,16 @@
         .feature-card {
             background: white;
             padding: 2rem;
-            border-radius: 12px;
+            border-radius: var(--radius);
             box-shadow: var(--shadow);
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
         }
 
         .feature-icon {
@@ -380,11 +418,12 @@
         }
 
         .screenshot-item {
-            border-radius: 12px;
+            border-radius: var(--radius);
             overflow: hidden;
             box-shadow: var(--shadow-lg);
             transition: transform 0.3s;
             background: white;
+            border: 1px solid var(--border-color);
         }
 
         .screenshot-item:hover {
@@ -410,43 +449,60 @@
 
         /* 下载区域 */
         .download {
-            padding: 4rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #06B6D4 100%);
             color: white;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
         }
 
         .download h2 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
+            position: relative;
         }
 
         .download p {
             font-size: 1.2rem;
             margin-bottom: 3rem;
-            opacity: 0.9;
+            opacity: 0.92;
         }
 
         .download-grid {
-            max-width: 800px;
+            max-width: 1100px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            position: relative;
         }
 
         .download-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
             padding: 2rem;
-            border-radius: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius);
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s;
         }
 
         .download-card:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.22);
             transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
         }
 
         .download-card.disabled {
@@ -459,8 +515,18 @@
         }
 
         .platform-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .platform-icon svg {
+            width: 48px;
+            height: 48px;
+            display: block;
         }
 
         .download-card h3 {
@@ -479,15 +545,16 @@
             padding: 0.75rem 1.5rem;
             background: white;
             color: var(--primary-color);
-            border-radius: 8px;
+            border-radius: 10px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
+            font-size: 0.95rem;
         }
 
         .download-btn:hover {
             transform: scale(1.05);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
 
         .download-btn.disabled {
@@ -507,7 +574,7 @@
             background: rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             font-size: 0.8rem;
-            margin-top: 0.5rem;
+            margin-top: 0.75rem;
         }
 
         /* 注意事项区域 */
@@ -522,9 +589,9 @@
         }
 
         .notice-card {
-            background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
-            border-left: 5px solid #f59e0b;
-            border-radius: 12px;
+            background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+            border-left: 5px solid #F59E0B;
+            border-radius: var(--radius);
             padding: 2rem;
             box-shadow: var(--shadow);
             display: flex;
@@ -596,8 +663,8 @@
         }
 
         .alt-download-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 16px;
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #06B6D4 100%);
+            border-radius: var(--radius);
             padding: 2.5rem;
             color: white;
             box-shadow: var(--shadow-lg);
@@ -630,161 +697,11 @@
             opacity: 0.95;
         }
 
-        .alt-download-steps {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .alt-download-steps h4 {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .alt-download-steps ol {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .alt-download-steps li {
-            padding: 0.75rem 0;
-            padding-left: 2rem;
-            position: relative;
-            font-size: 1.05rem;
-            line-height: 1.6;
-        }
-
-        .alt-download-steps li::before {
-            content: attr(data-step);
-            position: absolute;
-            left: 0;
-            top: 0.75rem;
-            width: 1.5rem;
-            height: 1.5rem;
-            background: white;
-            color: #667eea;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
         .highlight-text {
             background: rgba(255, 255, 255, 0.25);
             padding: 0.2rem 0.6rem;
             border-radius: 4px;
             font-weight: 600;
-        }
-
-        /* 公众号关注区域 */
-        .wechat-section {
-            padding: 4rem 2rem;
-            background: var(--bg-light);
-            text-align: center;
-        }
-
-        .wechat-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .wechat-title {
-            font-size: 2rem;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .wechat-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 2.5rem;
-        }
-
-        .wechat-card {
-            background: white;
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: var(--shadow-lg);
-            display: inline-block;
-        }
-
-        .wechat-qrcode {
-            width: 250px;
-            height: 250px;
-            margin: 0 auto 1.5rem;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .wechat-qrcode img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .wechat-qrcode-placeholder {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            font-size: 1rem;
-            text-align: center;
-            padding: 1rem;
-        }
-
-        .wechat-info h3 {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .wechat-info p {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        .wechat-benefits {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .wechat-benefits h4 {
-            font-size: 1.2rem;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-        }
-
-        .benefits-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            text-align: left;
-        }
-
-        .benefit-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .benefit-icon {
-            font-size: 1.2rem;
         }
 
         /* 图片灯箱效果 */
@@ -835,14 +752,23 @@
 
         /* 页脚 */
         footer {
-            background: var(--text-primary);
+            background: #0F172A;
             color: white;
-            padding: 2rem;
+            padding: 2.5rem 2rem;
             text-align: center;
         }
 
         footer p {
             opacity: 0.8;
+        }
+
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
 
         /* 响应式设计 */
@@ -881,7 +807,74 @@
             }
             
             .download-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* 注意事项移动端适配 */
+            .notice-section {
+                padding: 2rem 1rem;
+            }
+
+            .notice-card {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            .notice-icon {
+                font-size: 2rem;
+            }
+
+            .notice-content h3 {
+                font-size: 1.25rem;
+            }
+
+            .notice-content p {
+                font-size: 0.95rem;
+            }
+
+            .notice-content li {
+                font-size: 0.9rem;
+                padding: 0.4rem 0;
+                padding-left: 1.5rem;
+            }
+
+            .notice-tips {
+                font-size: 0.85rem;
+                padding: 0.75rem;
+            }
+
+            /* 高速下载通道移动端适配 */
+            .alternative-download {
+                padding: 2rem 1rem;
+            }
+
+            .alt-download-card {
+                padding: 1.5rem;
+            }
+
+            .alt-download-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .alt-download-title {
+                font-size: 1.4rem;
+            }
+
+            .alt-download-content p {
+                font-size: 0.95rem;
+            }
+
+            .alt-download-content > div {
+                flex-direction: column !important;
+            }
+
+            .alt-download-content > div > a,
+            .alt-download-content > div > span {
+                width: 100% !important;
+                justify-content: center;
             }
             
             .cta-buttons {
@@ -918,6 +911,10 @@
                 padding: 1.5rem;
             }
             
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+
             .download-card {
                 padding: 1.5rem;
             }
@@ -928,7 +925,7 @@
     <!-- 导航栏 -->
     <nav>
         <div class="nav-container">
-            <a href="#" class="logo">📋 <span data-zh="超级剪贴板" data-en="Super Clipboard">超级剪贴板</span></a>
+            <a href="#" class="logo"><img src="./assets/images/app_icon.png" alt="Super Clipboard" style="width:32px;height:32px;vertical-align:middle;margin-right:8px;border-radius:6px;"> <span data-zh="超级剪贴板" data-en="Super Clipboard">超级剪贴板</span></a>
             <ul class="nav-links">
                 <li><a href="#features" data-zh="功能特性" data-en="Features">功能特性</a></li>
                 <li><a href="#screenshots" data-zh="界面预览" data-en="Screenshots">界面预览</a></li>
@@ -973,20 +970,29 @@
 
     <!-- Hero 区域 -->
     <section class="hero">
-        <h1 data-zh="超级剪贴板" data-en="Super Clipboard">超级剪贴板</h1>
-        <p data-zh="智能剪贴板管理工具，自动记录和管理您的所有复制内容，大幅提升工作效率" 
-           data-en="Smart clipboard management tool that automatically records and manages all your copied content, significantly improving work efficiency">
-            智能剪贴板管理工具，自动记录和管理您的所有复制内容，大幅提升工作效率
-        </p>
-        <div class="cta-buttons">
-            <a href="#download" class="btn btn-primary" data-zh="立即下载" data-en="Download Now">立即下载</a>
-            <a href="#features" class="btn btn-secondary" data-zh="了解更多" data-en="Learn More">了解更多</a>
+        <div style="position:relative;">
+            <div style="margin-bottom: 1.5rem;">
+                <img src="./assets/images/app_icon.png" alt="Super Clipboard" style="width:72px;height:72px;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,0.2);">
+            </div>
+            <h1 data-zh="超级剪贴板" data-en="Super Clipboard">超级剪贴板</h1>
+            <div style="display:inline-block; background:rgba(255,255,255,0.18); backdrop-filter:blur(4px); padding:0.4rem 1.2rem; border-radius:20px; font-size:0.95rem; margin-bottom:1.5rem; border:1px solid rgba(255,255,255,0.25);">
+                <span data-zh="当前版本：" data-en="Current Version: ">当前版本：</span><strong>v0.0.1-beta</strong>
+            </div>
+            <p data-zh="智能剪贴板管理工具，自动记录和管理您的所有复制内容，大幅提升工作效率" 
+               data-en="Smart clipboard management tool that automatically records and manages all your copied content, significantly improving work efficiency">
+                智能剪贴板管理工具，自动记录和管理您的所有复制内容，大幅提升工作效率
+            </p>
+            <div class="cta-buttons">
+                <a href="#download" class="btn btn-primary" data-zh="立即下载" data-en="Download Now">立即下载</a>
+                <a href="#features" class="btn btn-secondary" data-zh="了解更多" data-en="Learn More">了解更多</a>
+            </div>
         </div>
     </section>
 
     <!-- 功能特性 -->
     <section id="features" class="features">
         <h2 class="section-title" data-zh="核心功能" data-en="Core Features">核心功能</h2>
+        <p class="section-subtitle" data-zh="强大的功能组合，让您的工作效率翻倍" data-en="Powerful feature combinations to double your productivity">强大的功能组合，让您的工作效率翻倍</p>
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">📋</div>
@@ -1066,6 +1072,7 @@
     <!-- 截图展示 -->
     <section id="screenshots" class="screenshots">
         <h2 class="section-title" data-zh="界面预览" data-en="Interface Preview">界面预览</h2>
+        <p class="section-subtitle" data-zh="简洁现代的卡片式界面，美观与实用并存" data-en="Clean and modern card-style interface, combining beauty and utility">简洁现代的卡片式界面，美观与实用并存</p>
         <div class="screenshot-gallery">
             <div class="screenshot-item" onclick="openLightbox('assets/images/screenshot-main.png')">
                 <img src="assets/images/screenshot-main.png" alt="主界面截图" data-zh-alt="主界面截图" data-en-alt="Main Interface Screenshot" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -1107,14 +1114,12 @@
            data-en="Choose the version suitable for your platform and start improving work efficiency">
             选择适合您平台的版本，开始提升工作效率
         </p>
-        <div style="margin-bottom: 2rem; font-size: 1.1rem; opacity: 0.9;">
-            <span data-zh="当前版本：" data-en="Current Version: ">当前版本：</span>
-            <strong>0.0.1-beta</strong>
-        </div>
         <div class="download-grid">
             <!-- Windows -->
             <div class="download-card">
-                <div class="platform-icon">🪟</div>
+                <div class="platform-icon">
+                    <svg viewBox="0 0 24 24" fill="white"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+                </div>
                 <h3>Windows</h3>
                 <p data-zh="Windows 10/11 64位" data-en="Windows 10/11 64-bit">Windows 10/11 64位</p>
                 <p style="font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7;">v0.0.1-beta</p>
@@ -1126,7 +1131,9 @@
 
             <!-- macOS -->
             <div class="download-card disabled">
-                <div class="platform-icon">🍎</div>
+                <div class="platform-icon">
+                    <svg viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                </div>
                 <h3>macOS</h3>
                 <p data-zh="macOS 10.15+" data-en="macOS 10.15+">macOS 10.15+</p>
                 <p style="font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7;">v0.0.1-beta</p>
@@ -1136,7 +1143,36 @@
 
             <!-- Linux -->
             <div class="download-card disabled">
-                <div class="platform-icon">🐧</div>
+                <div class="platform-icon">
+                    <svg viewBox="0 0 100 120" fill="white" style="width:40px;height:48px">
+                        <!-- 身体 -->
+                        <ellipse cx="50" cy="78" rx="30" ry="35" fill="white"/>
+                        <!-- 白色腹部 -->
+                        <ellipse cx="50" cy="82" rx="20" ry="26" fill="#E2E8F0" opacity="0.5"/>
+                        <!-- 头部 -->
+                        <circle cx="50" cy="38" r="22" fill="white"/>
+                        <!-- 眼睛白色底 -->
+                        <circle cx="40" cy="34" r="7" fill="white"/>
+                        <circle cx="60" cy="34" r="7" fill="white"/>
+                        <!-- 眼睛黑色瞳孔 -->
+                        <circle cx="42" cy="34" r="4" fill="#1E293B"/>
+                        <circle cx="58" cy="34" r="4" fill="#1E293B"/>
+                        <!-- 眼睛高光 -->
+                        <circle cx="43.5" cy="32.5" r="1.5" fill="white"/>
+                        <circle cx="59.5" cy="32.5" r="1.5" fill="white"/>
+                        <!-- 嘴巴 -->
+                        <ellipse cx="50" cy="46" rx="8" ry="4" fill="#F59E0B"/>
+                        <path d="M42 46 Q50 52 58 46" fill="#E67E22" opacity="0.6"/>
+                        <!-- 左脚 -->
+                        <ellipse cx="36" cy="112" rx="14" ry="6" fill="#F59E0B"/>
+                        <!-- 右脚 -->
+                        <ellipse cx="64" cy="112" rx="14" ry="6" fill="#F59E0B"/>
+                        <!-- 左翅膀 -->
+                        <ellipse cx="22" cy="72" rx="10" ry="22" fill="white" transform="rotate(-10 22 72)"/>
+                        <!-- 右翅膀 -->
+                        <ellipse cx="78" cy="72" rx="10" ry="22" fill="white" transform="rotate(10 78 72)"/>
+                    </svg>
+                </div>
                 <h3>Linux</h3>
                 <p data-zh="Ubuntu/Fedora 等" data-en="Ubuntu/Fedora etc.">Ubuntu/Fedora 等</p>
                 <p style="font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7;">v0.0.1-beta</p>
@@ -1183,61 +1219,35 @@
         </div>
     </section>
 
-    <!-- 其他下载方式 -->
+    <!-- 高速下载与历史版本 -->
     <section class="alternative-download">
         <div class="alt-download-container">
             <div class="alt-download-card">
                 <div class="alt-download-header">
-                    <div class="alt-download-icon">⚠️</div>
-                    <h3 class="alt-download-title" data-zh="其他下载方式" data-en="Alternative Download Methods">其他下载方式</h3>
+                    <div class="alt-download-icon">⚡</div>
+                    <h3 class="alt-download-title" data-zh="高速下载通道" data-en="Fast Download">高速下载通道</h3>
                 </div>
                 <div class="alt-download-content">
-                    <p data-zh="国内用户从 GitHub 下载可能较慢，建议使用网盘下载，速度更快！" 
-                       data-en="Downloading from GitHub may be slow for users in China. We recommend using cloud storage for faster download!">
-                        国内用户从 GitHub 下载可能较慢，建议使用网盘下载，速度更快！
+                    <p data-zh="国内用户推荐使用高速下载，服务器部署在国内，下载速度更快！" 
+                       data-en="For users in China, we recommend using the fast download channel for better speed!">
+                        国内用户推荐使用高速下载，服务器部署在国内，下载速度更快！
                     </p>
-                    <p data-zh="关注公众号获取网盘下载链接 👇" 
-                       data-en="Follow our WeChat Official Account to get the cloud storage download link 👇">
-                        关注公众号获取网盘下载链接 👇
-                    </p>
-                </div>
-                <div class="alt-download-steps">
-                    <h4 data-zh="📱 获取步骤：" data-en="📱 Steps to Download:">📱 获取步骤：</h4>
-                    <ol>
-                        <li data-step="1" data-zh="扫描下方二维码或搜索关注公众号【壁虎说技术】" 
-                            data-en="Scan the QR code below or search and follow the WeChat Official Account [壁虎说技术]">
-                            扫描下方二维码或搜索关注公众号【壁虎说技术】
-                        </li>
-                        <li data-step="2" data-zh="在公众号对话框回复关键词【超级剪贴板】" 
-                            data-en="Reply with the keyword [超级剪贴板] in the account's chat">
-                            在公众号对话框回复关键词【超级剪贴板】
-                        </li>
-                        <li data-step="3" data-zh="自动获取网盘下载链接，高速下载！🚀" 
-                            data-en="Automatically receive the cloud storage download link for fast download! 🚀">
-                            自动获取网盘下载链接，高速下载！🚀
-                        </li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 公众号关注 -->
-    <section class="wechat-section">
-        <div class="wechat-container">
-            <h2 class="wechat-title" data-zh="关注公众号" data-en="Follow Us on WeChat">关注公众号</h2>
-            <p class="wechat-subtitle" data-zh="获取更多效率工具推荐和技术分享" data-en="Get more productivity tools recommendations and tech sharing">获取更多效率工具推荐和技术分享</p>
-            
-            <div class="wechat-card">
-                <div class="wechat-qrcode">
-                    <!-- 替换为实际的公众号二维码图片 -->
-                    <img src="assets/images/wechat-qrcode.jpg" alt="壁虎说技术公众号二维码" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="wechat-qrcode-placeholder" style="display: none;">
-                        📱 公众号二维码<br>（待添加）
+                    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.5rem;">
+                        <a href="./app/SuperClipboard_Setup-x64-v0.0.1beta.exe" 
+                           style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:linear-gradient(135deg, #F59E0B, #F97316); border-radius:10px; color:white; text-decoration:none; font-weight:600; transition:all 0.3s; box-shadow:0 4px 14px rgba(245,158,11,0.3);" 
+                           onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(245,158,11,0.4)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 14px rgba(245,158,11,0.3)'"
+                           data-zh="⚡ Windows 版" data-en="⚡ Windows">
+                           ⚡ Windows 版
+                        </a>
+                        <span style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:rgba(255,255,255,0.4); font-weight:600; cursor:not-allowed;" 
+                           data-zh="⚡ macOS 版（适配中）" data-en="⚡ macOS (Adapting)">
+                           ⚡ macOS 版（适配中）
+                        </span>
+                        <span style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:rgba(255,255,255,0.4); font-weight:600; cursor:not-allowed;" 
+                           data-zh="⚡ Linux 版（适配中）" data-en="⚡ Linux (Adapting)">
+                           ⚡ Linux 版（适配中）
+                        </span>
                     </div>
-                </div>
-                <div class="wechat-info">
-                    <h3>壁虎说技术</h3>
                 </div>
             </div>
         </div>
@@ -1245,8 +1255,16 @@
 
     <!-- 页脚 -->
     <footer>
+        <p style="margin-bottom: 0.75rem;">
+            <img src="./assets/images/app_icon.png" alt="" style="width:24px;height:24px;border-radius:4px;vertical-align:middle;margin-right:6px;">
+            <strong>Super Clipboard</strong>
+        </p>
         <p>&copy; 2026 <span data-zh="超级剪贴板" data-en="Super Clipboard">超级剪贴板</span>. <span data-zh="保留所有权利。" data-en="All rights reserved.">保留所有权利。</span></p>
         <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+            <a href="https://github.com/Shuyun123/SuperClipboard" target="_blank" data-zh="GitHub 仓库" data-en="GitHub Repository">GitHub 仓库</a>
+            <span style="margin: 0 0.5rem; opacity: 0.5;">|</span>
+            <a href="https://github.com/Shuyun123/SuperClipboard/releases" target="_blank" data-zh="📦 历史版本" data-en="📦 Release History">📦 历史版本</a>
+            <span style="margin: 0 0.5rem; opacity: 0.5;">|</span>
             <span data-zh="问题反馈与支持" data-en="Feedback & Support">问题反馈与支持</span>
         </p>
     </footer>
