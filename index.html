@@ -410,11 +410,11 @@
         }
 
         .screenshot-gallery {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
         }
 
         .screenshot-item {
@@ -444,7 +444,7 @@
             width: 100%;
             height: auto;
             display: block;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         /* 下载区域 */
@@ -541,7 +541,7 @@
         }
 
         .download-btn {
-            display: inline-block;
+            display: block;
             padding: 0.75rem 1.5rem;
             background: white;
             color: var(--primary-color);
@@ -550,6 +550,7 @@
             font-weight: 600;
             transition: all 0.3s;
             font-size: 0.95rem;
+            text-align: center;
         }
 
         .download-btn:hover {
@@ -575,6 +576,9 @@
             border-radius: 20px;
             font-size: 0.8rem;
             margin-top: 0.75rem;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
         }
 
         /* 注意事项区域 */
@@ -976,7 +980,7 @@
             </div>
             <h1 data-zh="超级剪贴板" data-en="Super Clipboard">超级剪贴板</h1>
             <div style="display:inline-block; background:rgba(255,255,255,0.18); backdrop-filter:blur(4px); padding:0.4rem 1.2rem; border-radius:20px; font-size:0.95rem; margin-bottom:1.5rem; border:1px solid rgba(255,255,255,0.25);">
-                <span data-zh="当前版本：" data-en="Current Version: ">当前版本：</span><strong>v0.0.1-beta</strong>
+                <span data-zh="当前版本：" data-en="Current Version: ">当前版本：</span><strong id="hero-version">v0.0.2-beta</strong>
             </div>
             <p data-zh="智能剪贴板管理工具，自动记录和管理您的所有复制内容，大幅提升工作效率" 
                data-en="Smart clipboard management tool that automatically records and manages all your copied content, significantly improving work efficiency">
@@ -1098,6 +1102,18 @@
                     📸 设置界面截图（待添加）
                 </div>
             </div>
+            <div class="screenshot-item" onclick="openLightbox('assets/images/screenshot-functions.png')">
+                <img src="assets/images/screenshot-functions.png" alt="功能面板截图" data-zh-alt="功能面板截图" data-en-alt="Functions Panel Screenshot" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="screenshot-placeholder" style="display: none;" data-zh="📸 功能面板截图（待添加）" data-en="📸 Functions Panel Screenshot (To be added)">
+                    📸 功能面板截图（待添加）
+                </div>
+            </div>
+            <div class="screenshot-item" onclick="openLightbox('assets/images/screenshot-image.png')">
+                <img src="assets/images/screenshot-image.png" alt="图片预览截图" data-zh-alt="图片预览截图" data-en-alt="Image Preview Screenshot" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="screenshot-placeholder" style="display: none;" data-zh="📸 图片预览截图（待添加）" data-en="📸 Image Preview Screenshot (To be added)">
+                    📸 图片预览截图（待添加）
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1122,23 +1138,25 @@
                 </div>
                 <h3>Windows</h3>
                 <p data-zh="Windows 10/11 64位" data-en="Windows 10/11 64-bit">Windows 10/11 64位</p>
-                <p style="font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7;">v0.0.1-beta</p>
-                <a href="https://github.com/Shuyun123/SuperClipboard/releases/download/0.0.1-beta/SuperClipboard_Setup-x64-v0.0.1beta.exe" class="download-btn" data-zh="下载 Windows 版" data-en="Download for Windows">
+                <p id="win-version-text" style="font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7;">v0.0.2-beta</p>
+                <a id="win-download-link" href="#" class="download-btn" data-zh="下载 Windows 版" data-en="Download for Windows">
                     下载 Windows 版
                 </a>
                 <div class="status-badge" data-zh="✅ 已发布" data-en="✅ Released">✅ 已发布</div>
             </div>
 
             <!-- macOS -->
-            <div class="download-card disabled">
+            <div class="download-card">
                 <div class="platform-icon">
                     <svg viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
                 </div>
                 <h3>macOS</h3>
                 <p data-zh="macOS 10.15+" data-en="macOS 10.15+">macOS 10.15+</p>
-                <p style="font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7;">v0.0.1-beta</p>
-                <span class="download-btn disabled" data-zh="适配中" data-en="Adapting">适配中</span>
-                <div class="status-badge" data-zh="🚧 正在适配" data-en="🚧 Adapting">🚧 正在适配</div>
+                <p id="mac-version-text" style="font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7;">v0.0.2-beta</p>
+                <a id="mac-download-link" href="#" class="download-btn" data-zh="下载 macOS 版" data-en="Download for macOS">
+                    下载 macOS 版
+                </a>
+                <div class="status-badge" data-zh="✅ 已发布" data-en="✅ Released">✅ 已发布</div>
             </div>
 
             <!-- Linux -->
@@ -1175,7 +1193,7 @@
                 </div>
                 <h3>Linux</h3>
                 <p data-zh="Ubuntu/Fedora 等" data-en="Ubuntu/Fedora etc.">Ubuntu/Fedora 等</p>
-                <p style="font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7;">v0.0.1-beta</p>
+                <p id="linux-version-text" style="font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7;">v0.0.2-beta</p>
                 <span class="download-btn disabled" data-zh="适配中" data-en="Adapting">适配中</span>
                 <div class="status-badge" data-zh="🚧 正在适配" data-en="🚧 Adapting">🚧 正在适配</div>
             </div>
@@ -1233,17 +1251,19 @@
                         国内用户推荐使用高速下载，服务器部署在国内，下载速度更快！
                     </p>
                     <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.5rem;">
-                        <a href="./app/SuperClipboard_Setup-x64-v0.0.1beta.exe" 
-                           style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:linear-gradient(135deg, #F59E0B, #F97316); border-radius:10px; color:white; text-decoration:none; font-weight:600; transition:all 0.3s; box-shadow:0 4px 14px rgba(245,158,11,0.3);" 
+                        <a id="fast-win-link" href="#"
+                           style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:linear-gradient(135deg, #F59E0B, #F97316); border-radius:10px; color:white; text-decoration:none; font-weight:600; transition:all 0.3s; box-shadow:0 4px 14px rgba(245,158,11,0.3);"
                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(245,158,11,0.4)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 14px rgba(245,158,11,0.3)'"
                            data-zh="⚡ Windows 版" data-en="⚡ Windows">
                            ⚡ Windows 版
                         </a>
-                        <span style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:rgba(255,255,255,0.4); font-weight:600; cursor:not-allowed;" 
-                           data-zh="⚡ macOS 版（适配中）" data-en="⚡ macOS (Adapting)">
-                           ⚡ macOS 版（适配中）
-                        </span>
-                        <span style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:rgba(255,255,255,0.4); font-weight:600; cursor:not-allowed;" 
+                        <a id="fast-mac-link" href="#"
+                           style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:linear-gradient(135deg, #F59E0B, #F97316); border-radius:10px; color:white; text-decoration:none; font-weight:600; transition:all 0.3s; box-shadow:0 4px 14px rgba(245,158,11,0.3);"
+                           onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(245,158,11,0.4)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 14px rgba(245,158,11,0.3)'"
+                           data-zh="⚡ macOS 版" data-en="⚡ macOS">
+                           ⚡ macOS 版
+                        </a>
+                        <span style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:rgba(255,255,255,0.4); font-weight:600; cursor:not-allowed;"
                            data-zh="⚡ Linux 版（适配中）" data-en="⚡ Linux (Adapting)">
                            ⚡ Linux 版（适配中）
                         </span>
@@ -1270,7 +1290,23 @@
     </footer>
 
     <script>
-        // 语言切换功能 - 下拉菜单版本
+        // ========== 版本配置（发布新版本时只需修改此处）==========
+        const APP_VERSION = '0.0.2-beta'; // 版本号，如：0.0.2-beta
+        const VERSION_DISPLAY = 'v0.0.2-beta'; // 显示版本号，如：v0.0.2-beta
+        const GITHUB_USER = 'Shuyun123'; // GitHub 用户名
+        const GITHUB_REPO = 'SuperClipboard'; // GitHub 仓库名
+
+        // 动态拼接 GitHub Releases 下载链接
+        const GITHUB_RELEASE_BASE = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/releases/download/${APP_VERSION}`;
+        // Windows 文件名格式
+        const WIN_FILE = `SuperClipboard_Setup-x64-${APP_VERSION.replace('-beta', 'beta')}.exe`;
+        // macOS 文件名格式
+        const MAC_FILE = `SuperClipboard_Setup-x64-${APP_VERSION.replace('-beta', 'beta')}.dmg`;
+        // 本地高速下载路径
+        const LOCAL_WIN_PATH = `./app/${WIN_FILE}`;
+        const LOCAL_MAC_PATH = `./app/${MAC_FILE}`;
+
+        // ========== 语言切换功能 - 下拉菜单版本 ==========
         let currentLang = 'zh'; // 默认中文
         
         const langDropdownBtn = document.getElementById('langDropdownBtn');
@@ -1432,9 +1468,40 @@
                 closeMobileSidebar();
             }
         });
-        
-        // 页面加载时检查用户偏好
+
+        // ========== 动态更新版本号和下载链接 ==========
+        function updateVersionInfo() {
+            // 更新 Hero 区域版本号
+            const heroVersion = document.getElementById('hero-version');
+            if (heroVersion) heroVersion.textContent = VERSION_DISPLAY;
+
+            // 更新下载区域版本号显示
+            const winVersionText = document.getElementById('win-version-text');
+            const macVersionText = document.getElementById('mac-version-text');
+            const linuxVersionText = document.getElementById('linux-version-text');
+            if (winVersionText) winVersionText.textContent = VERSION_DISPLAY;
+            if (macVersionText) macVersionText.textContent = VERSION_DISPLAY;
+            if (linuxVersionText) linuxVersionText.textContent = VERSION_DISPLAY;
+
+            // 更新 GitHub Releases 下载链接
+            const winDownloadLink = document.getElementById('win-download-link');
+            const macDownloadLink = document.getElementById('mac-download-link');
+            if (winDownloadLink) winDownloadLink.href = `${GITHUB_RELEASE_BASE}/${WIN_FILE}`;
+            if (macDownloadLink) macDownloadLink.href = `${GITHUB_RELEASE_BASE}/${MAC_FILE}`;
+
+            // 更新高速下载通道链接
+            const fastWinLink = document.getElementById('fast-win-link');
+            const fastMacLink = document.getElementById('fast-mac-link');
+            if (fastWinLink) fastWinLink.href = LOCAL_WIN_PATH;
+            if (fastMacLink) fastMacLink.href = LOCAL_MAC_PATH;
+        }
+
+        // 页面加载时检查用户偏好并更新版本信息
         document.addEventListener('DOMContentLoaded', function() {
+            // 更新版本号和下载链接
+            updateVersionInfo();
+
+            // 检查语言偏好
             const savedLang = localStorage.getItem('preferred-language');
             if (savedLang && (savedLang === 'zh' || savedLang === 'en')) {
                 switchLanguage(savedLang);
