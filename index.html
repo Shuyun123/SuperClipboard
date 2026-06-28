@@ -923,6 +923,21 @@
                 padding: 1.5rem;
             }
         }
+
+        /* 注意事项样式增强 */
+        .notice-content li strong {
+            color: #92400e;
+            font-weight: 700;
+        }
+
+        .notice-content li {
+            margin-bottom: 0.75rem;
+            line-height: 1.7;
+        }
+
+        .notice-content li:last-child {
+            margin-bottom: 0;
+        }
     </style>
 </head>
 <body>
@@ -1207,29 +1222,29 @@
                 <div class="notice-icon">⚠️</div>
                 <div class="notice-content">
                     <h3 data-zh="使用注意事项" data-en="Important Notice">使用注意事项</h3>
-                    <p data-zh="为确保软件正常运行，请注意以下事项：" 
-                       data-en="To ensure the software works properly, please note the following:">
-                        为确保软件正常运行，请注意以下事项：
+                    <p data-zh="为确保软件全部功能正常运行，请根据您的操作系统完成对应设置：" 
+                    data-en="To ensure all features work properly, please configure according to your operating system:">
+                        为确保软件全部功能正常运行，请根据您的操作系统完成对应设置：
                     </p>
                     <ul>
-                        <li data-zh="如果自动粘贴功能无效，请检查安全软件（如 360、火绒等）是否拦截了'键盘模拟'权限。请将本程序添加到安全软件的信任区（白名单）中，然后重新启动软件以使设置生效。" 
-                            data-en="If the auto-paste function doesn't work, please check if security software (such as 360, Huorong, etc.) has blocked the 'keyboard simulation' permission. Please add this program to the security software's trust zone (whitelist), then restart the software for the settings to take effect.">
-                            如果自动粘贴功能无效，请检查安全软件（如 360、火绒等）是否拦截了"键盘模拟"权限。请将本程序添加到安全软件的信任区（白名单）中，然后重新启动软件以使设置生效。
+                        <li data-zh="<strong>Windows 系统</strong>：若自动粘贴功能失效，请检查安全软件（如 360、火绒等）是否拦截了「键盘模拟」权限。请将本程序添加到安全软件的信任区（白名单），重启软件后生效。首次运行若提示「未知发布者」，点击「仍要运行」即可。" 
+                            data-en="<strong>Windows</strong>：If auto-paste fails, check if security software (360, Huorong, etc.) has blocked 'keyboard simulation' permission. Add the program to the whitelist and restart the app. Click 'Run Anyway' if prompted 'Unknown Publisher' on first launch.">
+                            <strong>Windows 系统</strong>：若自动粘贴功能失效，请检查安全软件（如 360、火绒等）是否拦截了「键盘模拟」权限。请将本程序添加到安全软件的信任区（白名单），重启软件后生效。首次运行若提示「未知发布者」，点击「仍要运行」即可。
                         </li>
-                        <li data-zh="首次运行时，Windows 可能会提示"未知发布者"，请点击"仍要运行"以继续使用。" 
-                            data-en="When running for the first time, Windows may prompt 'Unknown Publisher', please click 'Run Anyway' to continue.">
-                            首次运行时，Windows 可能会提示"未知发布者"，请点击"仍要运行"以继续使用。
+                        <li data-zh="<strong>macOS 系统</strong>：自动粘贴与全局快捷键依赖辅助功能权限。请前往「系统设置 → 隐私与安全性 → 辅助功能」，将 Super Clipboard 添加至允许列表。首次打开若提示「无法验证开发者」，请右键点击应用图标选择「打开」，或在「隐私与安全性」面板中确认允许运行。" 
+                            data-en="<strong>macOS</strong>：Auto-paste and global shortcuts require Accessibility permission. Go to System Settings → Privacy & Security → Accessibility, and add Super Clipboard to the allowed list. If 'cannot verify developer' appears, right-click the app and select 'Open', or confirm in Privacy & Security.">
+                            <strong>macOS 系统</strong>：自动粘贴与全局快捷键依赖辅助功能权限。请前往「系统设置 → 隐私与安全性 → 辅助功能」，将 Super Clipboard 添加至允许列表。首次打开若提示「无法验证开发者」，请右键点击应用图标选择「打开」，或在「隐私与安全性」面板中确认允许运行。
                         </li>
-                        <li data-zh="建议将软件安装目录添加到杀毒软件的白名单中，以避免误报。" 
-                            data-en="It is recommended to add the software installation directory to the antivirus whitelist to avoid false positives.">
-                            建议将软件安装目录添加到杀毒软件的白名单中，以避免误报。
+                        <li data-zh="建议将软件安装目录加入杀毒软件白名单，避免功能被误拦截。" 
+                            data-en="It is recommended to add the installation directory to your antivirus whitelist to avoid false interception.">
+                            建议将软件安装目录加入杀毒软件白名单，避免功能被误拦截。
                         </li>
                     </ul>
                     <div class="notice-tips">
                         <strong data-zh="💡 温馨提示：" data-en="💡 Tips: ">💡 温馨提示：</strong>
-                        <span data-zh="本软件为本地化工具，所有数据均存储在您的设备上，不会上传到云端，请放心使用。" 
-                              data-en="This is a local tool, all data is stored on your device and will not be uploaded to the cloud, please use with confidence.">
-                            本软件为本地化工具，所有数据均存储在您的设备上，不会上传到云端，请放心使用。
+                        <span data-zh="本软件为纯本地化工具，所有剪贴板数据均存储在您的本地设备，不会上传至任何云端服务器，请放心使用。" 
+                            data-en="This is a fully local tool. All clipboard data is stored on your device and never uploaded to any cloud server.">
+                            本软件为纯本地化工具，所有剪贴板数据均存储在您的本地设备，不会上传至任何云端服务器，请放心使用。
                         </span>
                     </div>
                 </div>
@@ -1251,17 +1266,17 @@
                         国内用户推荐使用高速下载，服务器部署在国内，下载速度更快！
                     </p>
                     <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.5rem;">
-                        <a id="fast-win-link" href="#"
-                           style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:linear-gradient(135deg, #F59E0B, #F97316); border-radius:10px; color:white; text-decoration:none; font-weight:600; transition:all 0.3s; box-shadow:0 4px 14px rgba(245,158,11,0.3);"
-                           onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(245,158,11,0.4)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 14px rgba(245,158,11,0.3)'"
-                           data-zh="⚡ Windows 版" data-en="⚡ Windows">
-                           ⚡ Windows 版
+                        <a id="fast-win-link" href="#" download
+                        style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:linear-gradient(135deg, #F59E0B, #F97316); border-radius:10px; color:white; text-decoration:none; font-weight:600; transition:all 0.3s; box-shadow:0 4px 14px rgba(245,158,11,0.3);"
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(245,158,11,0.4)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 14px rgba(245,158,11,0.3)'"
+                        data-zh="⚡ Windows 版" data-en="⚡ Windows">
+                        ⚡ Windows 版
                         </a>
-                        <a id="fast-mac-link" href="#"
-                           style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:linear-gradient(135deg, #F59E0B, #F97316); border-radius:10px; color:white; text-decoration:none; font-weight:600; transition:all 0.3s; box-shadow:0 4px 14px rgba(245,158,11,0.3);"
-                           onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(245,158,11,0.4)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 14px rgba(245,158,11,0.3)'"
-                           data-zh="⚡ macOS 版" data-en="⚡ macOS">
-                           ⚡ macOS 版
+                        <a id="fast-mac-link" href="#" download
+                        style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:linear-gradient(135deg, #F59E0B, #F97316); border-radius:10px; color:white; text-decoration:none; font-weight:600; transition:all 0.3s; box-shadow:0 4px 14px rgba(245,158,11,0.3);"
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(245,158,11,0.4)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 14px rgba(245,158,11,0.3)'"
+                        data-zh="⚡ macOS 版" data-en="⚡ macOS">
+                        ⚡ macOS 版
                         </a>
                         <span style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:rgba(255,255,255,0.4); font-weight:600; cursor:not-allowed;"
                            data-zh="⚡ Linux 版（适配中）" data-en="⚡ Linux (Adapting)">
@@ -1296,12 +1311,12 @@
         const GITHUB_USER = 'Shuyun123'; // GitHub 用户名
         const GITHUB_REPO = 'SuperClipboard'; // GitHub 仓库名
 
-        // 动态拼接 GitHub Releases 下载链接
-        const GITHUB_RELEASE_BASE = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/releases/download/${APP_VERSION}`;
+        // 动态拼接 GitHub Releases 下载链接（带v前缀）
+        const GITHUB_RELEASE_BASE = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/releases/download/v${APP_VERSION}`;
         // Windows 文件名格式
-        const WIN_FILE = `SuperClipboard_Setup-x64-${APP_VERSION.replace('-beta', 'beta')}.exe`;
+        const WIN_FILE = `SuperClipboard_Setup-x64-v${APP_VERSION.replace('-beta', 'beta')}.exe`;
         // macOS 文件名格式
-        const MAC_FILE = `SuperClipboard_Setup-${APP_VERSION.replace('-beta', 'beta')}.dmg`;
+        const MAC_FILE = `SuperClipboard_Setup-v${APP_VERSION.replace('-beta', 'beta')}.dmg`;
         // 本地高速下载路径
         const LOCAL_WIN_PATH = `./app/${WIN_FILE}`;
         const LOCAL_MAC_PATH = `./app/${MAC_FILE}`;
@@ -1508,8 +1523,9 @@
             }
         });
 
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    
+        // 平滑滚动（仅修复：只匹配导航栏锚点，排除下载链接）
+        document.querySelectorAll('nav a[href^="#"], .mobile-nav-links a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
